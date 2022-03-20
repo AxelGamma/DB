@@ -1,0 +1,104 @@
+create database tallermecanico;
+drop database tallermecanico;
+CREATE TABLE cliente(
+    id_cliente int not null,
+    RFC varchar(10) not null,
+    Nombre varchar(250) not null,
+    Apellidos varchar(250) not null,
+    Direccion varchar(250) not null,
+    tel varchar(12) not null,
+    primary key(id_cliente)
+);
+CREATE TABLE vehiculo(
+    id_vehiculo int not null,
+    Matricula varchar(250) not null,
+    Color varchar(250) not null,
+    Fecha_Entrada date not null,
+    Hora_salida time not null,
+    primary key (id_vehiculo)
+);
+CREATE TABLE mecanico(
+    id_mecanico int not null,
+    DNI varchar(250) not null,
+    Nombre varchar(250) not null,
+    Apellidos varchar(250) not null,
+    primary key (id_mecanico)
+);
+CREATE TABLE hoja_parte(
+    id_hoja int not null,
+    Repuesto varchar(250) not null,
+    Precio_respuesto money not null,
+    Mano_de_obra money not null,
+    primary key(id_hoja)
+);
+CREATE TABLE factura(
+    id_factura int not null,
+    RFC_cliente varchar(10) not null,
+    DNI_mecanico varchar(10) not null,
+    Nombre_cliente varchar(250) not null,
+    Apellido_cliente varchar(250) not null,
+    Direccion_cliente varchar(250) not null,
+    Tel_cliente varchar(12),
+    Nombre_mecanico varchar(250),
+    Apellidos_mecanico varchar(250),
+    Precio_repuesto decimal,
+    Costo_manoObra decimal,
+    Iva decimal,
+    Total_factura money,
+    primary key(id_factura)
+);
+--INSETINTO--
+INSERT INTO mecanico
+values ('1', 'X8405902T', 'Julio Cesar', 'Chavez Huerta');
+INSERT INTO cliente
+values (
+        '1',
+        'A34038398',
+        'Emilio Dunas',
+        'Guevara Aguirre',
+        'Monaco 191,El tajito',
+        '9230430295'
+    );
+INSERT INTO vehiculo
+values ('1', '3521 UAR', 'Azul', '2012/12/2', '12:30');
+INSERT INTO factura
+values (
+        '1',
+        'A34038398',
+        'X8405902T',
+        'Emilio Dunas',
+        'Guevara Aguirre',
+        'Monaco 191,El tajito',
+        '9230430295',
+        'Julio Cesar',
+        'Chavez Huerta',
+        '720.32',
+        '550',
+        '16',
+        '1445.21'
+    );
+--Selects
+select *
+from mecanico;
+select *
+from cliente;
+select *
+from hoja_parte;
+select *
+from vehiculo;
+--to_char le da un formato, este formato acepta dos valores,
+select to_char(fecha_entrada, 'dd/mm/yyyy') --El primer parámetro es el valor que desea formatear y el segundo es la plantilla que define el formato de salida.
+from vehiculo;
+
+select *
+from factura;
+--Operaciones con update
+update vehiculo
+set fecha_entrada = '2020/12/3'
+where fecha_entrada = '2016/12/2';
+update cliente
+set apellidos = 'Guevara Gomez'
+where apellidos = 'Guevara Aguirre';
+--Alter tipo de dato
+alter table factura
+alter column Costo_manoObra type money;
